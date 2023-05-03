@@ -1,0 +1,31 @@
+{
+  "name": "openai-web-dashboard",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "copy-to-clipboard": "^3.3.3",
+    "naive-ui": "^2.34.3",
+    "pinia": "^2.0.35",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@kiritaniayaka/eslint-config": "^0.2.0",
+    "@vicons/ionicons5": "^0.12.0",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@vueuse/core": "^10.1.2",
+    "axios": "^1.4.0",
+    "eslint": "^8.39.0",
+    "openai": "^3.2.1",
+    "typescript": "^5.0.2",
+    "unocss": "^0.51.8",
+    "vite": "^4.3.2",
+    "vue-tsc": "^1.4.2"
+  }
+}
