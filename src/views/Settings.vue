@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { NAlert, NInput, NSpace } from 'naive-ui'
 import { useLocalStorage } from '@vueuse/core'
+import LayoutSkeleton from '../components/LayoutSkeleton.vue'
 
 const key = useLocalStorage('key', '')
 </script>
 
 <template>
-	<div class="setting p-4">
+	<LayoutSkeleton title="Settings">
 		<NSpace vertical>
 			<NAlert
-				title="Your key will not send to our server"
+				title="We will not keep your data"
 				type="info"
 			>
-				Your Key and chat record are saved at you browser. File and others are storaged on OpenAI server.
+				All data is stored locally and on OpenAI servers.
 			</NAlert>
 			<div>OpenAI Key:</div>
 			<NInput
@@ -22,5 +23,5 @@ const key = useLocalStorage('key', '')
 				placeholder="OpenAI key"
 			/>
 		</NSpace>
-	</div>
+	</LayoutSkeleton>
 </template>

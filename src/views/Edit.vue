@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { SelectOption } from 'naive-ui'
-import { NButton, NInput, NInputNumber, NLayout, NLayoutContent, NLayoutSider, NSelect, NSlider, NSpace } from 'naive-ui'
+import { NButton, NInput, NInputNumber, NSelect, NSlider, NSpace } from 'naive-ui'
 import { avaliableModels, useEditStore } from '../stores/edit'
+import LayoutSkeleton from '../components/LayoutSkeleton.vue'
 
 const editStore = useEditStore()
 
@@ -17,68 +18,62 @@ async function submit() {
 </script>
 
 <template>
-	<NLayout
+	<LayoutSkeleton
+		title="Edit"
 		has-sider
-		sider-placement="right"
 	>
-		<NLayoutContent :content-style="{ marginRight: '1.5rem', padding: '1rem' }">
-			<NSpace
-				vertical
-				:item-style="{ padding: '.25rem' }"
-			>
-				<div>Input</div>
-				<NInput
-					v-model:value="editStore.option.input"
-					type="textarea"
-					placeholder="Input"
-				></NInput>
-				<div>Instruction</div>
-				<NInput
-					v-model:value="editStore.option.instruction"
-					type="textarea"
-					placeholder="Instruction"
-				></NInput>
-				<NButton @click="submit">
-					Submit
-				</NButton>
-				<div class="flex">
-					<span>Result</span>
-					<span
-						v-if="!!editStore?.lastResponse?.usage"
-						class="grow text-right"
-					>Last cost:
-						{{ editStore.lastResponse.usage.prompt_tokens }}(propmt) +
-						{{ editStore.lastResponse.usage.completion_tokens }}(completion) =
-						{{ editStore.lastResponse.usage.total_tokens }} tokens
-					</span>
-				</div>
-				<!-- Default display -->
-				<NInput
-					v-if="!editStore.lastResponse.choices"
-					value="Result text will be here"
-					type="textarea"
-					placeholder="Result"
-					:readonly="true"
-				></NInput>
-				<NInput
-					v-for="item of editStore.lastResponse.choices"
-					:key="item.index"
-					:value="item.text"
-					type="textarea"
-					placeholder="Result"
-					:readonly="true"
-				></NInput>
-			</NSpace>
-		</NLayoutContent>
-		<NLayoutSider
-			collapse-mode="width"
-			:collapsed-width="24"
-			:width="240"
-			:native-scrollbar="true"
-			show-trigger="arrow-circle"
-			bordered
-			:content-style="{ overflow: 'hidden', padding: '24px', whiteSpace: 'nowrap', height: '100vh' }"
+		<NSpace
+			vertical
+			:item-style="{ padding: '.25rem' }"
 		>
+			<div>Input</div>
+			<NInput
+				v-model:value="editStore.option.input"
+				type="textarea"
+				placeholder="Input"
+				clearable
+			></NInput>
+			<div>Instruction</div>
+			<NInput
+				v-model:value="editStore.option.instruction"
+				type="textarea"
+				placeholder="Instruction"
+				clearable
+			></NInput>
+			<NButton @click="submit">
+				Submit
+			</NButton>
+			<div class="flex">
+				<span>Result</span>
+				<span
+					v-if="!!editStore?.lastResponse?.usage"
+					class="grow text-right"
+				>Last cost:
+					{{ editStore.lastResponse.usage.prompt_tokens }}(propmt) +
+					{{ editStore.lastResponse.usage.completion_tokens }}(completion) =
+					{{ editStore.lastResponse.usage.total_tokens }} tokens
+				</span>
+			</div>
+			<!-- Default display -->
+			<NInput
+				v-if="!editStore.lastResponse.choices"
+				value="Result text will be here"
+				type="textarea"
+				placeholder="Result"
+				:readonly="true"
+				class="default"
+			></NInput>
+			<NInput
+				v-for="item of editStore.lastResponse.choices"
+				:key="item.index"
+				:value="item.text"
+				type="textarea"
+				placeholder="Result"
+				:readonly="true"
+			></NInput>
+		</NSpace>
+
+		<template #sider>
 			<NSpace
 				vertical
 				:item-style="{ padding: '.25rem' }"
@@ -119,6 +114,12 @@ async function submit() {
 					:min="0"
 				></NSlider>
 			</NSpace>
-		</NLayoutSider>
-	</NLayout>
+		</template>
+	</LayoutSkeleton>
 </template>
+
+<style scoped>
+:deep(.default.n-input.n-input--textarea textarea) {
+	color: rgba(128, 128, 128, 0.87);
+}
+</style>

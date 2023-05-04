@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'
-import { NButton, NCard, NGi, NGrid, NIcon, NLayout, NLayoutContent, NLayoutHeader, NSpace, NText, useDialog, useLoadingBar, useMessage } from 'naive-ui'
+import { NButton, NCard, NGi, NGrid, NIcon, NSpace, NText, useDialog, useLoadingBar, useMessage } from 'naive-ui'
 import { FileTrayFullOutline as FileIcon } from '@vicons/ionicons5'
 import copy from 'copy-to-clipboard'
 import { humanizeFileSize } from '../utils'
 import { useFilesStore } from '../stores/files'
+import LayoutSkeleton from '../components/LayoutSkeleton.vue'
 
 const filesStore = useFilesStore()
 
@@ -68,11 +69,8 @@ function deleteFile(id: string) {
 </script>
 
 <template>
-	<NLayout>
-		<NLayoutHeader class="p-2 flex flex-row items-center">
-			<div class="px-4 text-lg font-bold grow">
-				Files
-			</div>
+	<LayoutSkeleton title="Files">
+		<template #titleExtra>
 			<NButton
 				round
 				type="primary"
@@ -91,60 +89,57 @@ function deleteFile(id: string) {
 				accept=".jsonl"
 				@change.prevent="upload"
 			/>
-		</NLayoutHeader>
-		<NLayoutContent
-			:content-style="{ padding: '24px' }"
+		</template>
+
+		<NGrid
+			:cols="2"
+			x-gap="32"
 		>
-			<NGrid
-				:cols="2"
-				x-gap="32"
+			<NGi
+				v-for="item in filesStore.files"
+				:key="item.id"
 			>
-				<NGi
-					v-for="item in filesStore.files"
-					:key="item.id"
+				<NCard
+					size="small"
+					:title="item.filename"
+					:header-style="{}"
+					hoverable
 				>
-					<NCard
-						size="small"
-						:title="item.filename"
-						:header-style="{}"
-						hoverable
-					>
-						<template #header-extra>
-							<NText
-								code
-								@click="copyID(item.id)"
-							>
-								{{ item.id }}
+					<template #header-extra>
+						<NText
+							code
+							@click="copyID(item.id)"
+						>
+							{{ item.id }}
+						</NText>
+					</template>
+					<NSpace vertical>
+						<div>
+							Size: <NText code>
+								{{ humanizeFileSize(item.bytes) }}
 							</NText>
-						</template>
-						<NSpace vertical>
-							<div>
-								Size: <NText code>
-									{{ humanizeFileSize(item.bytes) }}
-								</NText>
-							</div>
-							<div>
-								Create time: <NText code>
-									{{ new Date(item.created_at * 1000).toLocaleString() }}
-								</NText>
-							</div>
-						</NSpace>
-						<template #action>
-							<div class="text-right">
-								<NButton
-									type="error"
-									secondary
-									@click="deleteFile(item.id)"
-								>
-									Delete
-								</NButton>
-							</div>
-						</template>
-					</NCard>
-				</NGi>
-			</NGrid>
-		</NLayoutContent>
-	</NLayout>
+						</div>
+						<div>
+							Create time: <NText code>
+								{{ new Date(item.created_at * 1000).toLocaleString() }}
+							</NText>
+						</div>
+					</NSpace>
+					<template #action>
+						<div class="text-right">
+							<NButton
+								type="error"
+								secondary
+								@click="deleteFile(item.id)"
+							>
+								Delete
+							</NButton>
+						</div>
+					</template>
+				</NCard>
+			</NGi>
+		</NGrid>
+	</LayoutSkeleton>
 </template>
 
 <style scoped>

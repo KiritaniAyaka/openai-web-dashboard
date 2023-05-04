@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import LayoutSkeleton from '../components/LayoutSkeleton.vue'
 </script>
 
 <template>
-	<div class="p-4">
-		You can use the official Playground to chat
-	</div>
+	<LayoutSkeleton title="Chat">
+		<template #sider>
+		</template>
+	</LayoutSkeleton>
 </template>
