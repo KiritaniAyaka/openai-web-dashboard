@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { ChatCompletionResponseMessage, CreateChatCompletionRequest, CreateChatCompletionResponse } from 'openai'
+import type { ChatCompletionRequestMessage, ChatCompletionResponseMessage, CreateChatCompletionRequest, CreateChatCompletionResponse } from 'openai'
 import { useLocalStorage } from '@vueuse/core'
 import { pick } from '../utils'
 import { useOpenAI } from './openai_config'
@@ -37,6 +37,13 @@ export const useChatStore = defineStore('chat', {
 		current(state): ChatSession | undefined {
 			return state.sessions.find(session => session.id === state.selectedId)
 		},
+		attachedMessages(): ChatCompletionRequestMessage[] {
+			const cur = this.current
+			if (!cur) {
+				return []
+			}
+			return cur.history.filter((_, index, arr) => arr.length - index <= cur.attachedMessage)
+		},
 	},
 	actions: {
 		async submit() {
@@ -46,6 +53,7 @@ export const useChatStore = defineStore('chat', {
 			const requestOption = {
 				...pick(this.current, ['model', 'temperature', 'top_p']),
 				messages: [
+					...this.attachedMessages,
 					{
 						role: 'user',
 						content: this.current.typedContent,

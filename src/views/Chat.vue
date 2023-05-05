@@ -97,8 +97,8 @@ const deleteSession = (id?: number) => {
 							:key="index"
 							:from="item.role"
 							:content="item.content"
+							:hightlight="chatStore.current.history.length - index <= chatStore.current.attachedMessage"
 						>
-							{{ item.content }}
 						</ChatBubble>
 					</div>
 				</NScrollbar>
@@ -187,7 +187,7 @@ const deleteSession = (id?: number) => {
 					<NInputNumber
 						v-model:value="chatStore.current.attachedMessage"
 						:precision="0"
-						:validator="(n:number) => n > 0"
+						:validator="(n:number) => n >= 0"
 						placeholder="Message counts"
 					></NInputNumber>
 				</OptionSetting>

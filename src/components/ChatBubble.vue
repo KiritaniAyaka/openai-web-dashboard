@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, ComputedRef } from 'vue'
+import { computed } from 'vue'
+
 import MarkdownIt from 'markdown-it'
-import { ref } from 'vue'
 
 const props = defineProps<{
 	from: 'system' | 'user' | 'assistant'
 	content: string
+	hightlight?: boolean
 }>()
 
 const radius = '1.25rem'
@@ -31,7 +33,9 @@ const stylePresets: { [P in 'system' | 'user' | 'assistant']: CSSProperties } = 
 	},
 }
 
-const bubbleStyle = ref(stylePresets[props.from])
+const hightlightStyle: ComputedRef<CSSProperties> = computed(() => props.hightlight ? { } : { opacity: '.75' })
+
+const bubbleStyle = computed(() => ({ ...stylePresets[props.from], ...hightlightStyle.value }))
 
 const md = MarkdownIt({
 	breaks: true,
@@ -55,6 +59,11 @@ const md = MarkdownIt({
 	overflow-wrap: break-word;
 	word-break: break-word;
 	max-width: 85%;
+	transition: .3s;
+}
+
+.bubble:hover {
+	opacity: 1 !important;
 }
 
 .bubble p {
