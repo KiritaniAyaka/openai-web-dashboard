@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
+import MarkdownIt from 'markdown-it'
 import { ref } from 'vue'
 
 const props = defineProps<{
 	from: 'system' | 'user' | 'assistant'
+	content: string
 }>()
 
 const radius = '1.25rem'
@@ -30,18 +32,21 @@ const stylePresets: { [P in 'system' | 'user' | 'assistant']: CSSProperties } = 
 }
 
 const bubbleStyle = ref(stylePresets[props.from])
+
+const md = MarkdownIt({
+	breaks: true,
+})
 </script>
 
 <template>
 	<div
 		class="bubble"
 		:style="bubbleStyle"
-	>
-		<slot></slot>
-	</div>
+		v-html="md.render(props.content)"
+	></div>
 </template>
 
-<style scoped>
+<style>
 .bubble {
 	padding: .5rem 1rem;
 	border: 1px solid #d6d6d6;
@@ -50,5 +55,10 @@ const bubbleStyle = ref(stylePresets[props.from])
 	overflow-wrap: break-word;
 	word-break: break-word;
 	max-width: 85%;
+}
+
+.bubble p {
+	margin-block-end: 0;
+	margin-block-start: 0;
 }
 </style>

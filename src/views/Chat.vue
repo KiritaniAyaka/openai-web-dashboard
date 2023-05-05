@@ -96,6 +96,7 @@ const deleteSession = (id?: number) => {
 							v-for="item, index of chatStore.current.history"
 							:key="index"
 							:from="item.role"
+							:content="item.content"
 						>
 							{{ item.content }}
 						</ChatBubble>
@@ -106,7 +107,6 @@ const deleteSession = (id?: number) => {
 					v-model:value="chatStore.current.typedContent"
 					type="textarea"
 					:autosize="{ minRows: 1, maxRows: 5 }"
-					size="small"
 					placeholder="Ctrl + Enter to send the message"
 					@keydown.ctrl.enter="submit"
 				></NInput>
