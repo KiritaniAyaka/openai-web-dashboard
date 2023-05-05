@@ -1,23 +1,73 @@
 <script setup lang="ts">
+import { NIcon, NInput } from 'naive-ui'
+import { Delete20Filled as DeleteIcon, Edit16Filled as EditIcon } from '@vicons/fluent'
+import { ref } from 'vue'
+
 const props = defineProps<{
-	title: string
+	modelValue: string
 	selected?: boolean
 }>()
 
 const emit = defineEmits<{
 	(e: 'click'): void
+	(e: 'delete'): void
+	(e: 'update:modelValue', value: string): void
 }>()
+
+const editMode = ref(false)
+const internalValue = ref('')
+
+const edit = () => {
+	editMode.value = true
+	internalValue.value = props.modelValue
+}
+
+const del = () => {
+	emit('delete')
+}
+
+const save = () => {
+	emit('update:modelValue', internalValue.value)
+	editMode.value = false
+}
 </script>
 
 <template>
 	<div
-		class="chat-session flex box-border rounded-2 items-center select-none"
+		class="chat-session flex box-border rounded-2 items-center select-none px-3"
 		:class="{ selected }"
 		@click="emit('click')"
 	>
-		<div class="font-bold mx-3 truncate">
-			{{ props.title }}
+		<div
+			v-if="!editMode"
+			class="font-bold truncate grow flex items-center"
+		>
+			<span class="grow">{{ props.modelValue }}</span>
+			<NIcon
+				v-if="selected"
+				size="18"
+				@click="edit"
+			>
+				<EditIcon></EditIcon>
+			</NIcon>
+			<NIcon
+				v-if="selected"
+				size="18"
+				class="ml-1"
+				@click="del"
+			>
+				<DeleteIcon></DeleteIcon>
+			</NIcon>
 		</div>
+		<NInput
+			v-else
+			v-model:value="internalValue"
+			size="small"
+			autofocus
+			@click.stop=""
+			@blur="save()"
+			@keydown.enter="save()"
+		></NInput>
 	</div>
 </template>
 

@@ -82,15 +82,11 @@ export const useChatStore = defineStore('chat', {
 				title: 'New Chat',
 			})
 		},
-		/**
-		 * delete the current session
-		 */
-		deleteSession() {
-			const curId = this.current?.id
-			if (!curId) {
+		deleteById(id?: number) {
+			if (id === undefined) {
 				return false
 			}
-			this.sessions = this.sessions.filter(item => item.id !== curId)
+			this.sessions = this.sessions.filter(item => item.id !== id)
 			return true
 		},
 	},

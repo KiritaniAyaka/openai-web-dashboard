@@ -21,6 +21,9 @@ devDependencies:
   '@kiritaniayaka/eslint-config':
     specifier: ^0.2.0
     version: 0.2.0(typescript@5.0.2)
+  '@vicons/fluent':
+    specifier: ^0.12.0
+    version: 0.12.0
   '@vicons/ionicons5':
     specifier: ^0.12.0
     version: 0.12.0
@@ -970,6 +973,10 @@ packages:
       vite: 4.3.2
     transitivePeerDependencies:
       - rollup
+    dev: true
+
+  /@vicons/fluent@0.12.0:
+    resolution: {integrity: sha512-ATCiqPuiJ6RI5GBlD3BIpZ9Xw4MsCA4RpI5oR6MCti4quS4mX1Gp6N74FCzw7lgOj+80rV4HMKhZTVInwimpVQ==}
     dev: true
 
   /@vicons/ionicons5@0.12.0:

@@ -22,7 +22,7 @@ const select = (id: number) => chatStore.selectedId = id
 
 const submit = () => chatStore.submit()
 
-const deleteSession = () => {
+const deleteSession = (id?: number) => {
 	const d = dialog.warning({
 		title: 'Warning',
 		content: 'Do you want to delete this session? It\'s UNRECOVERABLE!',
@@ -30,7 +30,7 @@ const deleteSession = () => {
 		negativeText: 'Cancel',
 		onPositiveClick: async () => {
 			d.loading = true
-			if (chatStore.deleteSession()) {
+			if (chatStore.deleteById(id ?? chatStore.current?.id)) {
 				msg.success('Chat session deleted successfully')
 			} else {
 				msg.error('Failed to delete the session')
@@ -69,10 +69,11 @@ const deleteSession = () => {
 				<ChatSession
 					v-for="item of chatStore.sessions"
 					:key="item.id"
-					:title="item.title"
+					v-model="item.title"
 					:selected="item.id === chatStore.selectedId"
 					class="mb-2"
 					@click="select(item.id)"
+					@delete="deleteSession(item.id)"
 				>
 				</ChatSession>
 			</div>
@@ -117,7 +118,7 @@ const deleteSession = () => {
 					<NButton
 						type="error"
 						secondary
-						@click="deleteSession"
+						@click="deleteSession()"
 					>
 						Delete
 					</NButton>
