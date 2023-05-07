@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { OpenAIFile } from 'openai'
 import { computed } from 'vue'
-import { NCollapse, NCollapseItem, NList, NListItem, NTag, NText, NThing, useMessage } from 'naive-ui'
+import { NCollapse, NCollapseItem, NList, NListItem, NTag, NText, NThing, NTime, useMessage } from 'naive-ui'
 import { copyAndShowMessage, humanizeFileSize } from '../../utils'
 
 export interface FileList {
@@ -56,7 +56,10 @@ const name = computed(() => props.option.map(item => item.title.replace(' ', '_'
 						<div class="flex">
 							<div class="grow">
 								Create time: <NText code>
-									{{ new Date(file.created_at * 1000).toLocaleString() }}
+									<NTime
+										:time="file.created_at"
+										unix
+									></NTime>
 								</NText>
 							</div>
 							<div class="grow">

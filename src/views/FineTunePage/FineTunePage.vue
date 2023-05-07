@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NButton, NCard, NGi, NGrid, NIcon, NSpace, NTag, NText, useMessage } from 'naive-ui'
+import { NButton, NCard, NGi, NGrid, NIcon, NSpace, NTag, NText, NTime, useMessage } from 'naive-ui'
 import {
 	AddCircleOutline as AddIcon,
 	SyncOutline as PendingIcon,
@@ -111,7 +111,10 @@ onMounted(() => {
 					<NSpace vertical>
 						<div>
 							Create time: <NText code>
-								{{ new Date(item.created_at * 1000).toLocaleString() }}
+								<NTime
+									:time="item.created_at"
+									unix
+								></NTime>
 							</NText>
 						</div>
 						<div>

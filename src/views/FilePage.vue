@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'
-import { NButton, NCard, NGi, NGrid, NIcon, NSpace, NText, useDialog, useLoadingBar, useMessage } from 'naive-ui'
+import { NButton, NCard, NGi, NGrid, NIcon, NSpace, NText, NTime, useDialog, useLoadingBar, useMessage } from 'naive-ui'
 import { FileTrayFullOutline as FileIcon } from '@vicons/ionicons5'
 import { copyAndShowMessage, humanizeFileSize } from '../utils'
 import { useFilesStore } from '../stores/files'
@@ -118,7 +118,10 @@ function deleteFile(id: string) {
 						</div>
 						<div>
 							Create time: <NText code>
-								{{ new Date(item.created_at * 1000).toLocaleString() }}
+								<NTime
+									:time="item.created_at"
+									unix
+								></NTime>
 							</NText>
 						</div>
 					</NSpace>
