@@ -1,10 +1,13 @@
 import { NIcon } from 'naive-ui'
+import type { MessageApiInjection } from 'naive-ui/es/message/src/MessageProvider'
 import type { Component } from 'vue'
 import { h } from 'vue'
+import copy from 'copy-to-clipboard'
 
 export function renderIcon(icon: Component) {
 	return () => h(NIcon, null, { default: () => h(icon) })
 }
+
 export function humanizeFileSize(size: number) {
 	const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 	let i = 0
@@ -26,4 +29,9 @@ export function pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pi
 		}
 	})
 	return result
+}
+
+export function copyAndShowMessage(textToCopy: string, api: MessageApiInjection, message: string) {
+	copy(textToCopy)
+	api.success(message)
 }

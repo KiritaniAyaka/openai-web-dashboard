@@ -78,7 +78,11 @@ const menuOptions: MenuOption[] = [
 								/>
 							</NLayoutSider>
 							<NLayout>
-								<RouterView></RouterView>
+								<RouterView v-slot="{ Component }">
+									<KeepAlive>
+										<component :is="Component"></component>
+									</KeepAlive>
+								</RouterView>
 							</NLayout>
 						</NLayout>
 					</NSpace>
@@ -89,13 +93,7 @@ const menuOptions: MenuOption[] = [
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
-
 .menu .n-menu {
 	height: 100vh;
-}
-
-body {
-	font-family: 'Noto Sans SC', sans-serif;
 }
 </style>
