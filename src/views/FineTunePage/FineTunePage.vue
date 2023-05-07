@@ -7,10 +7,10 @@ import {
 	CheckmarkCircle as SuccessIcon,
 } from '@vicons/ionicons5'
 import { onMounted, ref } from 'vue'
-import LayoutSkeleton from '../components/LayoutSkeleton.vue'
-import { useFineTuneStore } from '../stores/fine_tune'
-import { copyAndShowMessage } from '../utils'
-import CreateFineTuneDialog from './dialog/CreateFineTuneDialog.vue'
+import LayoutSkeleton from '../../components/LayoutSkeleton.vue'
+import { useFineTuneStore } from '../../stores/fine_tune'
+import { copyAndShowMessage } from '../../utils'
+import CreateFineTuneDialog from '../dialog/CreateFineTuneDialog.vue'
 import FileAccordin from './FileAccordion.vue'
 
 const fineTuneStore = useFineTuneStore()
@@ -51,7 +51,7 @@ onMounted(() => {
 				>
 					<template #header>
 						<span
-							class="hover:underline"
+							class="hover:underline cursor-default"
 							@click="item.fine_tuned_model
 								? copyAndShowMessage(item.fine_tuned_model, msg, 'Copied fine tune name to clipboard')
 								: undefined"
@@ -120,6 +120,7 @@ onMounted(() => {
 							</NText>
 						</div>
 						<FileAccordin
+							class="mt-2"
 							:option="[
 								{ title: 'Result files', files: item.result_files },
 								{ title: 'Training files', files: item.training_files },

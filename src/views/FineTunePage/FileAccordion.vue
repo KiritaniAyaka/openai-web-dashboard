@@ -2,7 +2,7 @@
 import type { OpenAIFile } from 'openai'
 import { computed } from 'vue'
 import { NCollapse, NCollapseItem, NList, NListItem, NTag, NText, NThing, useMessage } from 'naive-ui'
-import { copyAndShowMessage, humanizeFileSize } from '../utils'
+import { copyAndShowMessage, humanizeFileSize } from '../../utils'
 
 export interface FileList {
 	files: OpenAIFile[]

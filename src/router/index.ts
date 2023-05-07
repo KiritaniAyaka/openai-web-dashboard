@@ -3,11 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { useLocalStorage } from '@vueuse/core'
 import { createDiscreteApi } from 'naive-ui'
-import Chat from '../views/Chat.vue'
-import Edit from '../views/Edit.vue'
-import File from '../views/File.vue'
-import FineTune from '../views/FineTune.vue'
-import Settings from '../views/Settings.vue'
+import Chat from '../views/ChatPage.vue'
+import Edit from '../views/EditPage.vue'
+import File from '../views/FilePage.vue'
+import FineTune from '../views/FineTunePage/FineTunePage.vue'
+import Settings from '../views/SettingsPage.vue'
+
+const msg = createDiscreteApi(['message']).message
 
 const routes: Readonly<RouteRecordRaw[]> = [
 	{ path: '/', redirect: 'chat' },
@@ -28,7 +30,7 @@ router.beforeEach((to, _from) => {
 	if (to.name !== 'settings') {
 		// check if key exists
 		if (!key.value) {
-			createDiscreteApi(['message']).message.warning('Please set an OpenAI key', { keepAliveOnHover: true })
+			msg.warning('Please set an OpenAI key', { keepAliveOnHover: true })
 			return { name: 'settings' }
 		}
 	}

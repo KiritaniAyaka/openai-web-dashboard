@@ -3,8 +3,7 @@ import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'
 import { NButton, NCard, NGi, NGrid, NIcon, NSpace, NText, useDialog, useLoadingBar, useMessage } from 'naive-ui'
 import { FileTrayFullOutline as FileIcon } from '@vicons/ionicons5'
-import copy from 'copy-to-clipboard'
-import { humanizeFileSize } from '../utils'
+import { copyAndShowMessage, humanizeFileSize } from '../utils'
 import { useFilesStore } from '../stores/files'
 import LayoutSkeleton from '../components/LayoutSkeleton.vue'
 
@@ -40,11 +39,6 @@ async function upload() {
 		loadingBar.error()
 		msg.error('Uploading failed')
 	}
-}
-
-function copyID(id: string) {
-	copy(id)
-	msg.success('Copied id to clipboard')
 }
 
 const dialog = useDialog()
@@ -92,8 +86,9 @@ function deleteFile(id: string) {
 		</template>
 
 		<NGrid
-			:cols="2"
-			x-gap="32"
+			:cols="3"
+			x-gap="16"
+			y-gap="16"
 		>
 			<NGi
 				v-for="item in filesStore.files"
@@ -101,14 +96,16 @@ function deleteFile(id: string) {
 			>
 				<NCard
 					size="small"
-					:title="item.filename"
-					:header-style="{}"
 					hoverable
 				>
+					<template #header>
+						<span class="cursor-default hover:underline">{{ item.filename }}</span>
+					</template>
 					<template #header-extra>
 						<NText
 							code
-							@click="copyID(item.id)"
+							class="cursor-default hover:underline"
+							@click="copyAndShowMessage(item.id, msg, 'Copied id to clipboard')"
 						>
 							{{ item.id }}
 						</NText>
@@ -141,15 +138,3 @@ function deleteFile(id: string) {
 		</NGrid>
 	</LayoutSkeleton>
 </template>
-
-<style scoped>
-:deep(.n-card .n-card-header .n-card-header__main),
-:deep(.n-card .n-card-header .n-card-header__extra) {
-	cursor: default;
-}
-
-:deep(.n-card .n-card-header .n-card-header__main:hover),
-:deep(.n-card .n-card-header .n-card-header__extra:hover) {
-	text-decoration: underline;
-}
-</style>
