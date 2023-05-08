@@ -128,8 +128,16 @@ function deleteFile(id: string) {
 					<template #action>
 						<div class="text-right">
 							<NButton
+								type="info"
+								secondary
+								@click="filesStore.download(item.id, item.filename)"
+							>
+								Download
+							</NButton>
+							<NButton
 								type="error"
 								secondary
+								class="ml-2"
 								@click="deleteFile(item.id)"
 							>
 								Delete

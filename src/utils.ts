@@ -35,3 +35,11 @@ export function copyAndShowMessage(textToCopy: string, api: MessageApiInjection,
 	copy(textToCopy)
 	api.success(message)
 }
+
+export function downloadBlob(blob: Blob, filename: string) {
+	const link = document.createElement('a')
+	link.href = window.URL.createObjectURL(blob)
+	link.download = filename
+	link.click()
+	window.URL.revokeObjectURL(link.href)
+}

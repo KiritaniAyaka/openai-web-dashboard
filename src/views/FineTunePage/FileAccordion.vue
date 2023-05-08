@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { OpenAIFile } from 'openai'
 import { computed } from 'vue'
-import { NCollapse, NCollapseItem, NList, NListItem, NTag, NText, NThing, NTime, useMessage } from 'naive-ui'
+import { NButton, NCollapse, NCollapseItem, NList, NListItem, NTag, NText, NThing, NTime, useMessage } from 'naive-ui'
 import { copyAndShowMessage, humanizeFileSize } from '../../utils'
+import { useFilesStore } from '../../stores/files'
 
 export interface FileList {
 	files: OpenAIFile[]
@@ -13,6 +14,7 @@ const props = defineProps<{
 	option: FileList[]
 }>()
 
+const filesStore = useFilesStore()
 const msg = useMessage()
 
 const name = computed(() => props.option.map(item => item.title.replace(' ', '_')))
@@ -67,6 +69,14 @@ const name = computed(() => props.option.map(item => item.title.replace(' ', '_'
 									{{ humanizeFileSize(file.bytes) }}
 								</NText>
 							</div>
+							<NButton
+								type="info"
+								size="small"
+								secondary
+								@click="filesStore.download(file.id, file.filename)"
+							>
+								Download
+							</NButton>
 						</div>
 					</NThing>
 				</NListItem>
