@@ -17,13 +17,15 @@ const props = defineProps<{
 const filesStore = useFilesStore()
 const msg = useMessage()
 
-const name = computed(() => props.option.map(item => item.title.replace(' ', '_')))
+const validFileList = computed(() => props.option.filter(item => item.files.length !== 0))
+
+const name = computed(() => validFileList.value.map(item => item.title.replace(' ', '_')))
 </script>
 
 <template>
 	<NCollapse accordion>
 		<NCollapseItem
-			v-for="item, index of props.option"
+			v-for="item, index of validFileList"
 			:key="name[index]"
 			:title="item.title"
 			:name="name[index]"
