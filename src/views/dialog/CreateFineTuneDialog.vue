@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import type { FormItemRule, FormRules } from 'naive-ui'
+import type { FormItemRule, FormRules, SelectGroupOption } from 'naive-ui'
 import { NDynamicInput, NForm, NFormItemGi, NGrid, NInput, NInputNumber, NModal, NSelect, NSwitch, useMessage } from 'naive-ui'
 
 import { useFilesStore } from '../../stores/files'
@@ -79,10 +79,28 @@ const fileSelectOptions = computed(() => filesStore.files.map(item => ({
 
 const avaliableModels = ['davinci', 'curie', 'babbage', 'ada']
 
-const modelSelectOptions = computed(() => avaliableModels.map(item => ({
-	label: item,
-	value: item,
-})))
+const modelSelectOptions = computed(() => ([
+	{
+		type: 'group',
+		label: 'Original Models',
+		key: 'original',
+		children: avaliableModels.map(item => ({
+			label: item,
+			value: item,
+		})),
+	},
+	{
+		type: 'group',
+		label: 'Fine Tunes',
+		key: 'finetunes',
+		children: fineTuneStore.fineTunes
+			.filter(item => !!item.fine_tuned_model)
+			.map(item => ({
+				label: item.fine_tuned_model,
+				value: item.fine_tuned_model,
+			})),
+	},
+] as SelectGroupOption[]))
 
 const enableClassification = ref(false)
 const dialogLoading = ref(false)
@@ -161,6 +179,7 @@ const create = async () => {
 					label="Model"
 					path="model"
 					first
+					:span="2"
 				>
 					<NSelect
 						v-model:value="model.model"
@@ -178,16 +197,6 @@ const create = async () => {
 						:validator="(n: number) => n > 0"
 						placeholder="Defaults to 4"
 					></NInputNumber>
-				</NFormItemGi>
-
-				<NFormItemGi
-					label="Suffix"
-					path="suffix"
-				>
-					<NInput
-						v-model:value="model.suffix"
-						placeholder="Defaults to null"
-					></NInput>
 				</NFormItemGi>
 
 				<NFormItemGi
@@ -220,6 +229,17 @@ const create = async () => {
 						placeholder="Defaults to 0.01"
 					>
 					</NInputNumber>
+				</NFormItemGi>
+
+				<NFormItemGi
+					label="Suffix"
+					path="suffix"
+					:span="2"
+				>
+					<NInput
+						v-model:value="model.suffix"
+						placeholder="Defaults to null"
+					></NInput>
 				</NFormItemGi>
 
 				<NFormItemGi label="Classification">
