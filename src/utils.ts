@@ -43,3 +43,12 @@ export function downloadBlob(blob: Blob, filename: string) {
 	link.click()
 	window.URL.revokeObjectURL(link.href)
 }
+
+export function removeFalsy<T extends object>(obj: T): Partial<T> {
+	return Object.entries(obj).reduce((cur, [key, value]) => {
+		if (!value) {
+			return cur
+		}
+		return { ...cur, [key]: value }
+	}, {} as Partial<T>)
+}

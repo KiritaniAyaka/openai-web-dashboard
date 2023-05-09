@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { FineTune } from 'openai'
 import type { FineTuneModel } from '../views/dialog/CreateFineTuneDialog.vue'
+import { removeFalsy } from '../utils'
 import { useOpenAI } from './openai_config'
 
 export const useFineTuneStore = defineStore('fine_tune', {
@@ -19,7 +20,7 @@ export const useFineTuneStore = defineStore('fine_tune', {
 				return false
 			}
 			await openai.createFineTune({
-				...param,
+				...removeFalsy(param),
 				training_file: param.training_file,
 			})
 			await this.refresh()
