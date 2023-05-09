@@ -2,8 +2,11 @@ import { defineStore } from 'pinia'
 import type { OpenAIFile } from 'openai'
 import { Configuration, OpenAIApi } from 'openai'
 import { useLocalStorage } from '@vueuse/core'
+import { createDiscreteApi } from 'naive-ui'
 import { downloadBlob } from '../utils'
 import { useOpenAI } from './openai_config'
+
+const { message: msg, loadingBar: loading } = createDiscreteApi(['message', 'loadingBar'])
 
 export const useFilesStore = defineStore('files', {
 	state: () => ({
@@ -32,9 +35,17 @@ export const useFilesStore = defineStore('files', {
 		},
 		async download(id: string, filename: string) {
 			const openai = useOpenAI().value
-			const response = await openai.downloadFile(id)
-			const file = new Blob([response.data], { type: 'application/jsonl' })
-			downloadBlob(file, filename)
+			loading.start()
+			try {
+				const response = await openai.downloadFile(id)
+				const file = new Blob([response.data], { type: 'application/jsonl' })
+				downloadBlob(file, filename)
+				loading.finish()
+			} catch (error: any) {
+				const message = error.response.data.error.message as string
+				msg.error(message, { keepAliveOnHover: true })
+				loading.error()
+			}
 		},
 	},
 })
