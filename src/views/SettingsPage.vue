@@ -18,7 +18,8 @@ const key = useLocalStorage('key', '')
 			<div>OpenAI Key:</div>
 			<NInput
 				v-model:value="key"
-				type="text"
+				type="password"
+				show-password-on="click"
 				size="large"
 				placeholder="OpenAI key"
 			/>
