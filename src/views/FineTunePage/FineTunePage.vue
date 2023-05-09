@@ -42,13 +42,16 @@ onMounted(() => {
 			</NButton>
 		</template>
 
-		<NGrid :cols="2">
-			<NGi>
-				<NCard
-					v-for="item of fineTuneStore.fineTunes"
-					:key="item.id"
-					size="small"
-				>
+		<NGrid
+			:cols="2"
+			x-gap="16"
+			y-gap="16"
+		>
+			<NGi
+				v-for="item of fineTuneStore.fineTunes"
+				:key="item.id"
+			>
+				<NCard size="small">
 					<template #header>
 						<span
 							class="hover:underline cursor-default"
@@ -62,7 +65,7 @@ onMounted(() => {
 					<template #header-extra>
 						<NText
 							code
-							class="hover:underline cursor-default"
+							class="hover:underline cursor-default mr-2"
 							@click="copyAndShowMessage(item.id, msg, 'Copied id to clipboard')"
 						>
 							{{ item.id }}
@@ -97,7 +100,6 @@ onMounted(() => {
 							type="success"
 							round
 							:bordered="false"
-							class="ml-2"
 						>
 							{{ item.status }}
 							<template #icon>
