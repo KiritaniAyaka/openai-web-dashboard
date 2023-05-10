@@ -42,7 +42,7 @@ const save = () => {
 			v-if="!editMode"
 			class="font-bold truncate grow flex items-center"
 		>
-			<span class="grow">{{ props.modelValue }}</span>
+			<span class="grow truncate">{{ props.modelValue }}</span>
 			<NIcon
 				v-if="selected"
 				size="18"
