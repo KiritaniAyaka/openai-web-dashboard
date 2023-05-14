@@ -48,7 +48,7 @@ onMounted(() => {
 			y-gap="16"
 		>
 			<NGi
-				v-for="item of fineTuneStore.fineTunes"
+				v-for="item of fineTuneStore.sortedFileTunes"
 				:key="item.id"
 			>
 				<NCard size="small">

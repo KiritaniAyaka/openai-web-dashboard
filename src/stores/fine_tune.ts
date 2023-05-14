@@ -8,6 +8,11 @@ export const useFineTuneStore = defineStore('fine_tune', {
 	state: () => ({
 		fineTunes: [] as FineTune[],
 	}),
+	getters: {
+		sortedFileTunes: (state) => {
+			return state.fineTunes.sort((a, b) => b.created_at - a.created_at)
+		},
+	},
 	actions: {
 		async refresh() {
 			const openai = useOpenAI().value

@@ -91,7 +91,7 @@ function deleteFile(id: string) {
 			y-gap="16"
 		>
 			<NGi
-				v-for="item in filesStore.files"
+				v-for="item in filesStore.sortedFiles"
 				:key="item.id"
 			>
 				<NCard

@@ -12,6 +12,11 @@ export const useFilesStore = defineStore('files', {
 	state: () => ({
 		files: [] as OpenAIFile[],
 	}),
+	getters: {
+		sortedFiles: (state) => {
+			return state.files.sort((a, b) => b.created_at - a.created_at)
+		},
+	},
 	actions: {
 		async refresh() {
 			const openai = useOpenAI().value
