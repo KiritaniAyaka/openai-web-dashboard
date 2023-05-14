@@ -47,7 +47,7 @@ export const useChatStore = defineStore('chat', {
 	},
 	actions: {
 		async submit() {
-			if (!this.current) {
+			if (!this.current || !this.current.typedContent) {
 				return
 			}
 			const requestOption = {
