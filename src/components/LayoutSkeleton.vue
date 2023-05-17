@@ -71,7 +71,7 @@ const siderContentStyle: CSSProperties = { overflow: 'hidden', padding: '1rem', 
 }
 
 :deep(.n-layout-header) {
-	height: 50px;
+	min-height: 50px;
 }
 
 :deep(.n-divider) {

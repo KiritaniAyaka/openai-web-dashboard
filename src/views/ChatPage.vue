@@ -66,16 +66,18 @@ const deleteSession = (id?: number) => {
 					New Chat
 				</NButton>
 
-				<ChatSession
-					v-for="item of chatStore.sessions"
-					:key="item.id"
-					v-model="item.title"
-					:selected="item.id === chatStore.selectedId"
-					class="mb-2"
-					@click="select(item.id)"
-					@delete="deleteSession(item.id)"
-				>
-				</ChatSession>
+				<NScrollbar>
+					<ChatSession
+						v-for="item of chatStore.sessions"
+						:key="item.id"
+						v-model="item.title"
+						:selected="item.id === chatStore.selectedId"
+						class="mb-2"
+						@click="select(item.id)"
+						@delete="deleteSession(item.id)"
+					>
+					</ChatSession>
+				</NScrollbar>
 			</div>
 			<div class="divider"></div>
 			<div
