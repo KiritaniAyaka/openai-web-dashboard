@@ -79,7 +79,7 @@ export const useChatStore = defineStore('chat', {
 		 */
 		addNewSession() {
 			this.sessions.splice(0, 0, {
-				id: ~~(new Date().getTime() / 1000),
+				id: new Date().getTime(),
 				memory: [],
 				history: [],
 				model: 'gpt-3.5-turbo',
